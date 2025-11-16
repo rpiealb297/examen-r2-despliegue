@@ -59,64 +59,67 @@ Guarda los cambios y reinicia Apache:
 
 ## 4. Uso de la aplicación
 
-### 4.1. Descargar la aplicación
+# API – Documentación de Uso
 
-Clona el repositorio:
+Esta API recibe peticiones HTTP y devuelve respuestas en formato JSON con distintos códigos de estado según el endpoint utilizado.
 
-    git clone https://github.com/pepe/mi-app-next
+## 1. GET → `/load/client`
+Devuelve una lista de clientes de prueba.
 
-Entra en la carpeta del proyecto:
+**Método:** GET  
+**URL:** /load/client  
+**Respuesta:**  
+- **200 OK**  
+- JSON con varios clientes de ejemplo.
 
-    cd mi-app-next
+---
 
-### 4.2. Desplegar en Apache
+## 2. POST → `/create/client`
+Indica que un cliente ha sido creado correctamente.
 
-Copia el contenido del proyecto a la carpeta del sitio web.  
-Por ejemplo, si tu dominio será:
+**Método:** POST  
+**URL:** /create/client  
+**Respuesta:**  
+- **201 Created**  
+- JSON confirmando la creación.
 
-- Para **José Martínez Pérez** → `www.miaplicacionjomape.com`
-- Para **María Rodríguez Pérez** → `www.miaplicacionmarope.com`
+---
 
-Crea la carpeta del sitio:
+## 3. PUT → `/update/client`
+Indica que un cliente ha sido actualizado correctamente.
 
-    sudo mkdir -p /var/www/www.miaplicacion<iniciales>.com
+**Método:** PUT  
+**URL:** /update/client  
+**Respuesta:**  
+- **202 Accepted**  
+- JSON confirmando la actualización.
 
-Copia los archivos:
+---
 
-    sudo cp -r * /var/www/www.miaplicacion<iniciales>.com/
+## 4. GET → `/admin/load`
+Petición no autorizada para este recurso.
 
-Ajusta permisos (ejemplo básico):
+**Método:** GET  
+**URL:** /admin/load  
+**Respuesta:**  
+- **401 Unauthorized**  
+- JSON indicando que no está autorizado a acceder.
 
-    sudo chown -R www-data:www-data /var/www/www.miaplicacion<iniciales>.com
+---
 
-### 4.3. Configurar el VirtualHost (resumen)
+## 5. GET → `/admin/password`
+Recurso prohibido.
 
-Crea un archivo de sitio en Apache, por ejemplo:
+**Método:** GET  
+**URL:** /admin/password  
+**Respuesta:**  
+- **403 Forbidden**  
+- JSON indicando que el acceso está prohibido.
 
-    sudo nano /etc/apache2/sites-available/www.miaplicacion<iniciales>.com.conf
+---
 
-Con una estructura similar a:
-
-    <VirtualHost *:80>
-        ServerName www.miaplicacion<iniciales>.com
-        DocumentRoot /var/www/www.miaplicacion<iniciales>.com
-
-        <Directory /var/www/www.miaplicacion<iniciales>.com>
-            AllowOverride All
-            Require all granted
-        </Directory>
-    </VirtualHost>
-
-Activa el sitio y recarga Apache:
-
-    sudo a2ensite www.miaplicacion<iniciales>.com.conf
-    sudo systemctl reload apache2
-
-### 4.4. Acceso desde el navegador
-
-En el navegador, accede a:
-
-    http://www.miaplicacion<iniciales>.com
-
-Si todo está correcto, la aplicación debería mostrarse usando Apache, con PHP (si es necesario) y con el módulo `rewrite` disponible para `.htaccess`.
+## Notas
+- Todas las respuestas se entregan en formato JSON.
+- El servidor gestiona automáticamente los códigos de estado.
+- No se permite CORS para llamadas externas.
 
