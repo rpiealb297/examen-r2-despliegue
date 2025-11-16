@@ -1,0 +1,10 @@
+# Activar mod_rewrite
+RewriteEngine On
+
+# No reescribir si el fichero o directorio existe
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Redirigir todo a index.php para que lo gestione el router en PHP
+RewriteRule ^.*$ index.php [QSA,L]
+
